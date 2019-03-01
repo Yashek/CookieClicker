@@ -1,0 +1,105 @@
+<script>
+  function update() {
+    document.getElementById('text').value = cookiecount;
+    document.title = cookiecount + " Cookies";
+    document.getElementById('amountAutoClick').innerHTML = "You Own " + autoClick + " Auto Clickers";
+    document.getElementById('cookiesPerSec').innerHTML = "You Gain " + cookiesPerSec + " Cookies/Sec";
+    document.getElementById('costAutoClick').innerHTML = ((autoClick+1) * 12) + " Cookies";
+    document.getElementById('amountFarms').innerHTML = "You Own " + farm + " Farms";
+    document.getElementById('costFarm').innerHTML = ((farm+1) * 24) + " Cookies";
+    document.getElementById('costMultiplier').innerHTML = ((multiplier+1) * 100) + " Cookies";
+    document.getElementById('currentMultiplier').innerHTML = "Your Current Multiplier is x" + multiplier;
+  }
+  var cookiecount = 0;
+  var cookiesPerSec = 0;
+  var multiplier = 1;
+  var autoClick = 0;
+  var farm = 0;
+
+  function timer() {
+    cookiecount = cookiecount + (autoClick + (farm * 2)) * multiplier;
+    cookiesPerSec = (autoClick + (farm * 2)) * multiplier;
+    update()
+  }
+  setInterval(timer, 1000)
+</script>
+<html>
+<head>
+<title>Cookie Clicker</title>
+</head>
+<body>
+  <p id="cookiesPerSec">You Gain 0 Cookies/Sec</p>
+  <a href=# onclick="add()"><img src="cookie.png"></a>
+  <br><br>
+  You got:
+  <input type="text" id="text" disabled style= text-align:center value=0>
+  <script>
+  function add() {
+     cookiecount++;
+     update();
+   }
+  </script>
+  Cookies.
+  <br><br>
+
+  <button><a href="#" onClick="save()">Save</a></button>
+  <button><a href="#" onClick="load()">Load</a></button>
+  <br><br>
+  <p id="amountMultiplier">Multiplier Upgrade x2</p>
+  <button><a href="#" onClick="buyMultiplier()"><img src="multiplier.png" width="30px" height="40px"></a></button>
+  <p id="costMultiplier">200 Cookies</p>
+  <p id="currentMultiplier">Your Current Multiplier is x1</p>
+
+  <p>Buy 1 Auto Clicker</p>
+  <button><a href="#" onClick="buyAutoClick()"><img src="mouse-hover.png" width="30px" height="40px"</a></button>
+  <p id="costAutoClick">12 Cookies</p>
+  <p id="amountAutoClick">You Own 0 Auto Clickers</p>
+  <br>
+  <p>Buy 1 Farm</p>
+  <button><a href="#" onClick="buyFarm()"><img src="farm.png" width="30px" height="40px"</a></button>
+  <p id="costFarm">24 Cookies</p>
+  <p id="amountFarms">You Own 0 Farms</p>
+
+  <script>
+  function save() {
+    localStorage.setItem("cookiecount", cookiecount);
+    localStorage.setItem("autoClick", autoClick);
+    localStorage.setItem("farm", farm);
+    localStorage.setItem("multiplier", multiplier);
+  }
+  function load() {
+    cookiecount = localStorage.getItem("cookiecount");
+    cookiecount = parseInt(cookiecount);
+    autoClick = localStorage.getItem("autoClick");
+    autoClick = parseInt(autoClick);
+    farm = localStorage.getItem("farm");
+    farm = parseInt(farm);
+    multiplier = localStorage.getItem("multiplier");
+    multiplier = parseInt(multiplier);
+    update();
+  }
+  function buyAutoClick() {
+    if (cookiecount >= ((autoClick+1) * 12)) {
+      cookiecount = cookiecount - ((autoClick+1) * 12);
+      autoClick++;
+      update()
+    }
+  }
+  function buyFarm() {
+    if (cookiecount >= ((farm+1) * 24)) {
+      cookiecount = cookiecount - ((farm+1) * 24);
+      farm++;
+      update()
+    }
+  }
+  function buyMultiplier() {
+    //if (cookiecount >= ((farm+1) * 24)) {
+    if (cookiecount >= ((multiplier+1) * 100)) {
+    cookiecount = cookiecount - ((multiplier+1) * 100);
+    multiplier++;
+     update()
+    }
+}
+  </script>
+</body>
+</html>
